@@ -15,6 +15,8 @@ namespace Sorts
         int[] SortArray;
         int comparisons;
         int swaps;
+        int sortOrder = 1;
+
         public Form1()
         {
             InitializeComponent();
@@ -50,6 +52,36 @@ namespace Sorts
 
         private void DoInsertionSort()
         {
+            if (sortOrder == 1)
+            {
+                INSASC();
+            }
+            else if (sortOrder == 2)
+            {
+                INSDSC();
+            }
+        }
+        
+        private void INSASC()
+        {
+            for (int i = 0; i < SortArray.Length - 1; i++)
+            {
+                for (int j = i + 1; j > 0; j--)
+                {
+                    comparisons++;
+                    if (SortArray[j] > SortArray[j - 1])
+                    {
+                        swaps++;
+                        int key = SortArray[j - 1];
+                        SortArray[j - 1] = SortArray[j];
+                        SortArray[j] = key;
+                    }
+                }
+            }
+        }
+
+        private void INSDSC()
+        {
             for (int i = 0; i < SortArray.Length - 1; i++)
             {
                 for (int j = i + 1; j > 0; j--)
@@ -67,6 +99,43 @@ namespace Sorts
         }
 
         private void DoSelectionSort()
+        {
+            if (sortOrder == 1)
+            {
+                SELASC();
+            }
+            else if (sortOrder == 2)
+            {
+                SELDSC();
+            }
+        }
+
+        private void SELASC()
+        {
+            int largestNumberIndex;
+            for (int i = 0; i < SortArray.Length - 1; i++)
+            {
+                largestNumberIndex = i;
+                for (int j = i + 1; j < SortArray.Length; j++)
+                {
+                    comparisons++;
+                    if (SortArray[j] > SortArray[largestNumberIndex])
+                    {
+                        largestNumberIndex = j;
+                    }
+                }
+                comparisons++;
+                if (largestNumberIndex != i)
+                {
+                    swaps++;
+                    int key = SortArray[largestNumberIndex];
+                    SortArray[largestNumberIndex] = SortArray[i];
+                    SortArray[i] = key;
+                }
+            }
+        }
+
+        private void SELDSC()
         {
             int smallestNumberIndex;
             for (int i = 0; i < SortArray.Length - 1; i++)
@@ -92,6 +161,36 @@ namespace Sorts
         }
 
         private void DoBubbleSort()
+        {
+            if (sortOrder == 1)
+            {
+                BUBASC();
+            }
+            else if (sortOrder == 2)
+            {
+                BUBDSC();
+            }
+        }
+
+        private void BUBASC()
+        {
+            for (int i = SortArray.Length; i > -1; i--)
+            {
+                for (int j = 0; j < i - 1; j++)
+                {
+                    comparisons++;
+                    if (SortArray[j] < SortArray[j + 1])
+                    {
+                        swaps++;
+                        int key = SortArray[j + 1];
+                        SortArray[j + 1] = SortArray[j];
+                        SortArray[j] = key;
+                    }
+                }
+            }
+        }
+
+        private void BUBDSC()
         {
             for (int i = SortArray.Length; i > -1; i--)
             {
@@ -144,6 +243,18 @@ namespace Sorts
             GenerateArray();
             ReadyStatistics();
             DisplayStatistics();
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            //Ascending
+            sortOrder = 1;
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            //Descending
+            sortOrder = 2;
         }
     }
 }
