@@ -27,10 +27,12 @@ namespace Sorts
         {
             Random r = new Random(DateTime.Now.Millisecond);
             SortArray = null;
+            //Array size max 250,000 - Set in designer
             SortArray = new int[(int)ArraySize.Value];
             for (int i = 0; i < SortArray.Length; i++)
             {
-                SortArray[i] = r.Next(0, 100);
+                //Random # 0 through 1 million
+                SortArray[i] = r.Next(0, 1000000);
             }
             DisplayArray();
         }
@@ -69,7 +71,7 @@ namespace Sorts
                 for (int j = i + 1; j > 0; j--)
                 {
                     comparisons++;
-                    if (SortArray[j] > SortArray[j - 1])
+                    if (SortArray[j] < SortArray[j - 1])
                     {
                         swaps++;
                         int key = SortArray[j - 1];
@@ -87,7 +89,7 @@ namespace Sorts
                 for (int j = i + 1; j > 0; j--)
                 {
                     comparisons++;
-                    if (SortArray[j] < SortArray[j - 1])
+                    if (SortArray[j] > SortArray[j - 1])
                     {
                         swaps++;
                         int key = SortArray[j - 1];
@@ -112,50 +114,54 @@ namespace Sorts
 
         private void SELASC()
         {
-            int largestNumberIndex;
-            for (int i = 0; i < SortArray.Length - 1; i++)
+            bool set;
+            int smallestNumberIndex;
+            for (int i = 1; i < SortArray.Length - 1; i++)
             {
-                largestNumberIndex = i;
-                for (int j = i + 1; j < SortArray.Length; j++)
+                smallestNumberIndex = i - 1;
+                set = false;
+                for (int j = i; j < SortArray.Length; j++)
                 {
                     comparisons++;
-                    if (SortArray[j] > SortArray[largestNumberIndex])
+                    if (SortArray[j] < SortArray[smallestNumberIndex])
                     {
-                        largestNumberIndex = j;
+                        set = true;
+                        smallestNumberIndex = j;
                     }
                 }
-                comparisons++;
-                if (largestNumberIndex != i)
+                if (set)
                 {
                     swaps++;
-                    int key = SortArray[largestNumberIndex];
-                    SortArray[largestNumberIndex] = SortArray[i];
-                    SortArray[i] = key;
+                    int key = SortArray[smallestNumberIndex];
+                    SortArray[smallestNumberIndex] = SortArray[i - 1];
+                    SortArray[i - 1] = key;
                 }
             }
         }
 
         private void SELDSC()
         {
-            int smallestNumberIndex;
-            for (int i = 0; i < SortArray.Length - 1; i++)
+            bool set;
+            int largestNumberIndex;
+            for (int i = 1; i < SortArray.Length - 1; i++)
             {
-                smallestNumberIndex = i;
-                for (int j = i + 1; j < SortArray.Length; j++)
+                largestNumberIndex = i - 1;
+                set = false;
+                for (int j = i; j < SortArray.Length; j++)
                 {
                     comparisons++;
-                    if (SortArray[j] < SortArray[smallestNumberIndex])
+                    if (SortArray[j] > SortArray[largestNumberIndex])
                     {
-                        smallestNumberIndex = j;
+                        set = true;
+                        largestNumberIndex = j;
                     }
                 }
-                comparisons++;
-                if (smallestNumberIndex != i)
+                if (set)
                 {
                     swaps++;
-                    int key = SortArray[smallestNumberIndex];
-                    SortArray[smallestNumberIndex] = SortArray[i];
-                    SortArray[i] = key;
+                    int key = SortArray[largestNumberIndex];
+                    SortArray[largestNumberIndex] = SortArray[i - 1];
+                    SortArray[i - 1] = key;
                 }
             }
         }
@@ -179,7 +185,7 @@ namespace Sorts
                 for (int j = 0; j < i - 1; j++)
                 {
                     comparisons++;
-                    if (SortArray[j] < SortArray[j + 1])
+                    if (SortArray[j] > SortArray[j + 1])
                     {
                         swaps++;
                         int key = SortArray[j + 1];
@@ -197,7 +203,7 @@ namespace Sorts
                 for (int j = 0; j < i - 1; j++)
                 {
                     comparisons++;
-                    if (SortArray[j] > SortArray[j + 1])
+                    if (SortArray[j] < SortArray[j + 1])
                     {
                         swaps++;
                         int key = SortArray[j + 1];
